@@ -1,0 +1,28 @@
+version: '1'
+
+services:
+  coffee-shop:
+    build: ./coffee-shop
+    restart: always
+    ports:
+      - '3000:3000'
+    volumes:
+      - /app/node_modules
+      - ./coffee-shop:/app
+  coffee-shop-backend:
+    build: ./coffee-shop-backend
+    restart: always
+    ports:
+      - '4444:4444'
+    depends_on:
+      - mongodb
+    volumes:
+      - /app/node_modules
+      - ./coffee-shop-backend:/app
+  mongodb:
+    image: mongo
+    restart: always
+    volumes:
+      - mongo_data:/var/lib/mongo
+volumes:
+  mongo_data:
